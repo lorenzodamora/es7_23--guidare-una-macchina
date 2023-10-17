@@ -44,7 +44,7 @@ namespace es7_17_10_23
 		public float Speed
 		{
 			get { return _speed; }
-			set { SwitchSpeed(value); }
+			private set { _speed = value; }
 		}
 
 		public Auto()
@@ -66,12 +66,8 @@ namespace es7_17_10_23
 
 		private void SwitchMarcia(short marcia)
 		{
-
-		}
-
-		private void SwitchSpeed(float speed)
-		{
-
+			_marcia = marcia;
+			// chiamare ??
 		}
 
 		/// <summary>
@@ -81,7 +77,13 @@ namespace es7_17_10_23
 		/// <returns>Se ora è accesa ritorna true, se ora è spenta ritorna false</returns>
 		public bool AccendiSpegni(bool isOn)
 		{
-			IsOn = isOn;
+			OnOff(isOn);
+			return _isOn;
+		}
+
+		public bool AccendiSpegni()
+		{
+			OnOff(!IsOn);
 			return _isOn;
 		}
 
