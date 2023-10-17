@@ -18,5 +18,10 @@ namespace es7_17_10_23
 		{
 			InitializeComponent();
 		}
+
+		private void Avanza_click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
