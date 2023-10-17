@@ -12,6 +12,7 @@ namespace es7_17_10_23
 	 * Per la realizzazione creare la classe Auto con gli attributi e i metodi opportuni.
 	 * Creare un repository GitHub effettuando almeno un commit/push, per ogni funzionalità implementata
 	 */
+
 	/// <summary>
 	/// Macchina con cambio manuale
 	/// </summary>
@@ -24,7 +25,9 @@ namespace es7_17_10_23
 		//costanti:
 		//	min e max marcia
 		//	dictionary min[] e max[] velocità in base alla marcia
-		//	
+		//	accelerazione al secondo
+		//	decelerazione in folle al s
+		//	frenata al s
 
 		public bool IsOn
 		{
@@ -58,7 +61,7 @@ namespace es7_17_10_23
 		private void OnOff(bool isOn)
 		{
 			_isOn = isOn;
-			//chiamare ??
+			//chiamare se la macchina è in movimento???
 		}
 
 		private void SwitchMarcia(short marcia)
