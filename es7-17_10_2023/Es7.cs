@@ -12,7 +12,7 @@ namespace es7_17_10_23
 		 * accelerare e decelerare;
 		 * aumentare e diminuire la marcia..
 		 * Per la realizzazione creare la classe Auto con gli attributi e i metodi opportuni.
-		 * Creare un repository GitHub effettuando almeno un commit/push,  per ogni funzionalità implementata
+		 * Creare un repository GitHub effettuando almeno un commit/push, per ogni funzionalità implementata
 		 */
 		public Es7()
 		{
