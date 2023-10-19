@@ -32,5 +32,5 @@ metodo accelerazione costante
 metodo frena
 
 
-metodo cambia marcia
+metodo cambia marcia (switch, ++, --)
 
