@@ -1,0 +1,36 @@
+Realizzare un programma in windows form che consenta di simulare la guida di un'automobile.
+Le funzionalità richieste sono:
+- accende e spegnere il motore;
+- accelerare e decelerare;
+- aumentare e diminuire la marcia..
+Per la realizzazione creare la classe Auto con gli attributi e i metodi opportuni.
+Creare un repository GitHub effettuando almeno un commit/push, per ogni funzionalità implementata
+
+guida in linea retta pendenza 0°
+
+attributi : isOn, marcia, velocità (km/h)
+costanti :
+- min e max marcia
+- velocità min e max in base alla marcia
+- accelerazione al secondo (m/s^2)
+- decelerazione in folle al s (m/s^2)
+- frenata al s (m/s^2)
+
+di default decelerazione in folle al s
+
+metodo accendispegni
+a motore spento i freni e le marcie funzionano
+a motore acceso funziona tutto
+spento il motore spegni 'accelerazione costante'
+
+metodo accelera
+
+
+metodo accelerazione costante
+
+
+metodo frena
+
+
+metodo cambia marcia
+
