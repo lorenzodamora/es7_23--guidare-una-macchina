@@ -11,10 +11,10 @@ guida in linea retta pendenza 0°
 attributi : isOn, marcia, velocità (km/h)
 costanti :
 - min e max marcia
-- velocità min e max in base alla marcia (array associativo / dictionary?)
-- accelerazione al secondo (m/s^2)
+- velocità (km/h) min e max in base alla marcia (array associativo / dictionary?)
+- accelerazione al secondo base (m/s^2)
+- frenata al s base (m/s^2)
 - decelerazione in folle al s (m/s^2)
-- frenata al s (m/s^2)
 
 di default decelerazione in folle al s
 
