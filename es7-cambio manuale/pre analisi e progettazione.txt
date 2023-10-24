@@ -11,7 +11,7 @@ guida in linea retta pendenza 0°
 attributi : isOn, marcia, velocità (km/h)
 costanti :
 - min e max marcia
-- velocità min e max in base alla marcia
+- velocità min e max in base alla marcia (array associativo / dictionary?)
 - accelerazione al secondo (m/s^2)
 - decelerazione in folle al s (m/s^2)
 - frenata al s (m/s^2)
@@ -23,14 +23,35 @@ a motore spento i freni e le marcie funzionano
 a motore acceso funziona tutto
 spento il motore spegni 'accelerazione costante'
 
+
 metodo accelera
+accelerazione variabile in base alla velocità
+se in retro l'accelerazione è come la prima, ma in negativo
+a velocità massima della marcia allora = costante
+
+
+metodo calcolo variazione di accelerazione ('metodo delta')
+calcola in base alla velocità attuale (e marcia?) e tipo di accelerazione(costante o aumento)
 
 
 metodo accelerazione costante
+'accelerazione' senza nè aumento nè diminuzione di velocità
 
 
 metodo frena
+elevata diminuzione di velocità
 
 
 metodo cambia marcia (switch, ++, --)
+imposta la velocità max/min e il comportamento se oltre questi limiti
+se la velocità è sopra 0 allora la retro non ci imposta ("gratta la marcia")
+
+
+metodo gestisci ('metodo eccezioni')
+switch? singoli metodi di comportamento (metodo con 'params short modes')
+	se velocità attuale sotto il min o sopra il max l'utente quando accelera (costante o aumento) invece decelera lentamente, quando non accelera decelera normalmente
+	se senza marcia non accelera
+
+metodo avanza (gestione temporale)
+chiama i metodi in base alle impostazioni (booleane)
 
