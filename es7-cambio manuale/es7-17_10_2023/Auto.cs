@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace es7_17_10_23
@@ -19,15 +20,29 @@ namespace es7_17_10_23
 	internal class Auto
 	{
 		private bool _isOn;
-		private short _marcia; //-1 retro, 0 folle, 1->6
+		private short _marcia; //-1 retro, 0 (N) folle, 1->6
 		private float _speed;
 
-		//costanti:
-		//	min e max marcia
-		//	dictionary min[] e max[] velocità in base alla marcia
-		//	accelerazione al secondo
-		//	decelerazione in folle al s
-		//	frenata al s
+		public const short marciaMin = -1;
+		public const short marciaMax = 6; //se una subclass ha invece 7 marcie then con public sovrascrive o da error?
+
+		public const float accelerazioneBase = 2f; // mt per sec quadrato
+		public const float frenataBase = -5f; // mt per sec quadrato
+		public const float decelerazioneBase = -0.5f; // mt per sec quadrato
+
+		public readonly Dictionary<short, (float min, float max)> speedPerMarcia = new Dictionary<short, (float min, float max)> // km/h
+		{
+			{-1, (-20f, 0f) }, // in retro al max -20
+			{0, (0f, 0f) }, //in folle tende a 0
+			{1, (0f, 40f) },
+			{2, (20f, 70f) },
+			{3, (30f, 90f) },
+			{4, (40f, 110f) },
+			{5, (50f, 130f) },
+			{6, (60f, 170f) }
+		};
+
+		public const float convert_mtPerSec_kmPerH = 3.6f;
 
 		public bool IsOn
 		{
