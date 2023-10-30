@@ -40,6 +40,7 @@ metodo accelerazione costante
 
 metodo frena
 elevata diminuzione di velocità
+"non va sotto 0": tende a 0 sia se velocità è sopra o sotto 0
 
 
 metodo cambia marcia (switch, ++, --)
