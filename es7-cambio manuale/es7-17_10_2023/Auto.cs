@@ -20,17 +20,17 @@ namespace es7_17_10_23
 	internal class Auto
 	{
 		private bool _isOn;
-		private short _marcia; //-1 retro, 0 (N) folle, 1->6
+		private short _gear; //-1 retro, 0 (N) folle, 1->6
 		private float _speed;
 
-		public const short marciaMin = -1;
-		public const short marciaMax = 6; //se una subclass ha invece 7 marcie then con public sovrascrive o da error?
+		public const short gearMin = -1;
+		public const short gearMax = 6; //se una subclass ha invece 7 marcie then con public sovrascrive o da error?
 
 		public const float accelerazioneBase = 2f; // mt per sec quadrato
 		public const float frenataBase = -5f; // mt per sec quadrato
 		public const float decelerazioneBase = -0.5f; // mt per sec quadrato
 
-		public readonly Dictionary<short, (float min, float max)> speedPerMarcia = new Dictionary<short, (float min, float max)> // km/h
+		public readonly Dictionary<short, (float min, float max)> speedPerGear = new Dictionary<short, (float min, float max)> // km/h
 		{
 			{-1, (-20f, 0f) }, // in retro al max -20
 			{0, (0f, 0f) }, //in folle tende a 0
@@ -44,7 +44,7 @@ namespace es7_17_10_23
 
 		public const float convert_mtPerSec_kmPerH = 3.6f;
 
-		public const bool isMarciaSwitchableWhen_isOff = false;
+		public const bool isGearSwitchableWhen_isOff = false;
 		
 		public bool IsOn
 		{
@@ -52,10 +52,10 @@ namespace es7_17_10_23
 			set { OnOff(value); }
 		}
 
-		public short Marcia
+		public short Gear
 		{
-			get { return _marcia; }
-			set { SwitchMarcia(value); }
+			get { return _gear; }
+			set { SwitchGear(value); }
 		}
 
 		public float Speed
@@ -67,7 +67,7 @@ namespace es7_17_10_23
 		public Auto()
 		{
 			_isOn = false;
-			_marcia = 0;
+			_gear = 0;
 			_speed = 0;
 		}
 
@@ -81,15 +81,15 @@ namespace es7_17_10_23
 			//chiamare se la macchina è in movimento???
 		}
 
-		private void AumentaMarcia() => SwitchMarcia(_marcia == -1 ? (short)1 : (short)(_marcia+1));
+		private void AumentaMarcia() => SwitchGear(_gear == -1 ? (short)1 : (short)(_gear+1));
 
-		private void DiminuisciMarcia() => SwitchMarcia(_marcia == 1 ? (short)-1 : (short)(_marcia-1));
+		private void DiminuisciMarcia() => SwitchGear(_gear == 1 ? (short)-1 : (short)(_gear-1));
 
-		private void SwitchMarcia(short marcia)
+		private void SwitchGear(short gear)
 		{
 			//in questa macchina a motore spento la marcia non cambia
-			if(!isMarciaSwitchableWhen_isOff && !_isOn) return;
-			switch(marcia)
+			if(!isGearSwitchableWhen_isOff && !_isOn) return;
+			switch(gear)
 			{
 				case -1:
 					//gratta la marcia
@@ -111,7 +111,7 @@ namespace es7_17_10_23
 					//marcia non esistente
 					return;
 			}
-			_marcia = marcia;
+			_gear = gear;
 		}
 
 		/// <summary>
