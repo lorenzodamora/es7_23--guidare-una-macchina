@@ -15,7 +15,11 @@ costanti :
 - frenata base (m/s^2)
 - decelerazione in folle (m/s^2)
 
+
+azioni all'avanzamento del tempo
 di default decelerazione in folle
+variabili booleane che regiscono tra loro per chiamare i metodi all'avanzamento
+
 
 metodo accendispegni
 a motore spento i freni e le marcie funzionano
@@ -27,17 +31,17 @@ metodo accelera
 accelerazione variabile in base alla velocità:
 	più la velocità è alta più la resistenza dell'aria sale
 	più la marcia è bassa più l'accelerazione è alta
-se in retro l'accelerazione è come la prima, ma in negativo
+se in retro l'accelerazione è in negativo
 a velocità massima della marcia allora = costante
 
 
 metodo calcolo variazione di accelerazione ('metodo delta')
-calcola in base alla velocità attuale (e marcia?) e tipo di accelerazione(costante o aumento)
+calcola in base alla velocità e marcia attuali e tipo di accelerazione(costante o aumento)
 
 
 metodo accelerazione costante
 'accelerazione' senza nè aumento nè diminuzione di velocità
-
+se sotto al minimo della marcia allora aumenta almeno fino al minimo
 
 metodo frena
 elevata diminuzione di velocità
@@ -49,11 +53,11 @@ imposta la velocità max/min e il comportamento se oltre questi limiti
 se la velocità è sopra 0 allora la retro non ci imposta ("gratta la marcia")
 
 
-metodo gestisci ('metodo eccezioni')
-switch? singoli metodi di comportamento (metodo con 'params short modes')
-	se velocità attuale sotto il min o sopra il max l'utente quando accelera (costante o aumento) invece decelera lentamente, quando non accelera decelera normalmente
-	se senza marcia non accelera
-
 metodo avanza (gestione temporale)
 chiama i metodi in base alle impostazioni (booleane)
 
+
+eccezioni da gestire
+	se velocità attuale sopra il max l'utente quando accelera (costante o aumento) invece decelera lentamente, quando non accelera decelera normalmente
+		invece se sotto il min accelera lentamente
+	se senza marcia non accelera
