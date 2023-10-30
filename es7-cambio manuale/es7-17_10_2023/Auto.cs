@@ -79,10 +79,35 @@ namespace es7_17_10_23
 			//chiamare se la macchina è in movimento???
 		}
 
+		private void AumentaMarcia() => SwitchMarcia(_marcia == -1 ? (short)1 : (short)(_marcia+1));
+
+		private void DiminuisciMarcia() => SwitchMarcia(_marcia == 1 ? (short)-1 : (short)(_marcia-1));
+
 		private void SwitchMarcia(short marcia)
 		{
+			switch(marcia)
+			{
+				case -1:
+					//gratta la marcia
+					if(_speed != 0) return;
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+					//gratta la marcia
+					if(_speed < 0) return;
+					break;
+				case 0:
+					//impostabile in ogni momento
+					break;
+				default:
+					//marcia non esistente
+					return;
+			}
 			_marcia = marcia;
-			// chiamare ??
 		}
 
 		/// <summary>
