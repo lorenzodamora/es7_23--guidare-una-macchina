@@ -44,6 +44,8 @@ namespace es7_17_10_23
 
 		public const float convert_mtPerSec_kmPerH = 3.6f;
 
+		public const bool isMarciaSwitchableWhen_isOff = false;
+		
 		public bool IsOn
 		{
 			get { return _isOn; }
@@ -85,6 +87,8 @@ namespace es7_17_10_23
 
 		private void SwitchMarcia(short marcia)
 		{
+			//in questa macchina a motore spento la marcia non cambia
+			if(!isMarciaSwitchableWhen_isOff && !_isOn) return;
 			switch(marcia)
 			{
 				case -1:
