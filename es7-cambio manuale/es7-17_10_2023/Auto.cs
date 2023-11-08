@@ -182,7 +182,6 @@ namespace es7_17_10_23
 					throw new Exception("azione non trovata");
 			}
 		}
-
 		private void SwitchActions(Actions action)
 		{
 			switch((short)action)
@@ -233,7 +232,69 @@ namespace es7_17_10_23
 		{
 			Rallenta(DecelerazioneBase);
 		}
-		
+
+		/*
+		public short TrovaMarciaCorretta()
+		{
+			foreach(short gear in speedAndAccPerGear.Keys)
+			{
+				if(Speed <= speedAndAccPerGear[gear].maxSpeed && Speed >= speedAndAccPerGear[gear].minSpeed) return gear;
+			}
+			short first = speedAndAccPerGear.Keys.First();
+			if(Speed < speedAndAccPerGear[first].minSpeed) return (short)(first - 10);
+			short last = speedAndAccPerGear.Keys.Last();
+			if(Speed > speedAndAccPerGear[last].maxSpeed) return (short)(last + 1);
+
+			throw new Exception("non è stata trovata la marcia corretta");
+		}
+		 */
+
+		private float AcceleraInterna(float differenza)
+		{
+			/*
+			float accC = speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH;
+			float diff2 = differenza*2.5f;
+			float diff3 = 170f - diff2;
+			float div = diff3/170f;
+			float ret = accC * div;
+			return Math.Abs(ret);
+			*/
+			return Math.Abs(speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH * (170f- differenza*2.5f)/170f);
+		}
+
+		private void Accelera()
+		{
+			//acc * (100-(speed-max)*2.5)/100
+			//acc * (100-(min-speed)*2.5)/100
+
+			if(Speed < speedAndAccPerGear[_gear].minSpeed)
+			{
+				//gear:6; min:60; speed:0; calcolo: acc * (100 - ( 60 - 0 ) * 2.5) / 100 = acc* (100 - 60) / 100 = 40% of acc
+				Speed += _gear != -1 ? AcceleraInterna(speedAndAccPerGear[_gear].minSpeed-Speed) : AcceleraInterna(-Speed - speedAndAccPerGear[_gear].minSpeed);
+			}
+			else if(Speed > speedAndAccPerGear[_gear].maxSpeed)
+			{
+				//gear:6; max:170; speed:180; calcolo: acc * (100 - ( 180 - 170 ) * 2.5) / 100 = acc* (100 - 25) / 100 = 75% of acc
+				Speed -= AcceleraInterna(Speed - speedAndAccPerGear[_gear].maxSpeed);
+			}
+			else
+			{
+				Speed += speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH;
+				//se ora è sopra il max dovrei gestirla diversamente, ma vab
+			}
+		}
+
+		private void SpeedCostante()
+		{
+			//già passato questo: if(_isOn && _gear != 0 && Speed != 0)
+
+			if(Speed > speedAndAccPerGear[_gear].maxSpeed)
+			{
+				Speed -= AcceleraInterna(Speed - speedAndAccPerGear[_gear].maxSpeed);
+			}
+			else Speed += 0;
+		}
+
 		private void Frena()
 		{
 			Rallenta(FrenataBase);
@@ -266,8 +327,8 @@ namespace es7_17_10_23
 				--seconds;
 				//se viene spenta passa prima per default actions
 				if(!(_accelera || _speedCostante || _frena) && _decelera) Decelera();
-				else if(_accelera) ; // Accelera();
-				else if(_speedCostante) ;// SpeedCostante();
+				else if(_accelera) Accelera();
+				else if(_speedCostante) SpeedCostante();
 				else if(_frena) Frena();
 
 				if(!SavePreviousActions)
