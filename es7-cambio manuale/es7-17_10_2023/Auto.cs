@@ -88,12 +88,22 @@ namespace es7_17_10_23
 		private void OnOff(bool isOn)
 		{
 			_isOn = isOn;
-			//chiamare se la macchina è in movimento???
+			if(!_isOn) DefaultActions();
 		}
 
+		public void AccendiSpegni()
+		{
+			if(_isOn) SwitchActions(Actions.Spegni);
+			else SwitchActions(Actions.Accendi);
+		}
+		public void Accendi() => SwitchActions(Actions.Accendi);
+		public void Spegni() => SwitchActions(Actions.Spegni);
+
+		/*
 		private void AumentaMarcia() => SwitchGear(_gear == -1 ? (short)1 : (short)(_gear+1));
 
 		private void DiminuisciMarcia() => SwitchGear(_gear == 1 ? (short)-1 : (short)(_gear-1));
+		 */
 
 		private void SwitchGear(short gear)
 		{
@@ -124,22 +134,110 @@ namespace es7_17_10_23
 			_gear = gear;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="isOn"></param>
-		/// <returns>Se ora è accesa ritorna true, se ora è spenta ritorna false</returns>
-		public bool AccendiSpegni(bool isOn)
+		public void EseguiAzione(Actions action) => SwitchActions(action);
+
+		public void AnnullaAzione(Actions action)
 		{
-			OnOff(isOn);
-			return _isOn;
+			switch((short)action)
+			{
+				case -1: //decelera
+					_decelera = false;
+					break;
+				case 0: //spegni
+					_spegni = false;
+					break;
+				case 1: //accendi
+					_accendi = false;
+					break;
+				case 2: //accelera
+					_accelera = false;
+					break;
+				case 3: // speed costante
+					_speedCostante = false;
+					break;
+				case 4: //frena
+					_frena = false;
+					break;
+			}
+			_decelera = !(_accelera || _speedCostante || _frena);
 		}
 
-		public bool AccendiSpegni()
+		public bool GetAction(Actions action)
 		{
-			OnOff(!IsOn);
-			return _isOn;
+			switch((short)action)
+			{
+				case -1: //decelera
+					return _decelera;
+				case 0: //spegni
+					return _spegni;
+				case 1: //accendi
+					return _accendi;
+				case 2: //accelera
+					return _accelera;
+				case 3: // speed costante
+					return _speedCostante;
+				case 4: //frena
+					return _frena;
+				default:
+					throw new Exception("azione non trovata");
+			}
+		}
+
+		private void SwitchActions(Actions action, bool retLog = true)
+		{
+			switch((short)action)
+			{
+				case -1: //decelera == non fare niente
+					_accelera = _speedCostante = _frena = false;
+					_decelera = true;
+					break;
+				case 0: //spegni
+					_accendi = false;
+					_spegni = true;
+					break;
+				case 1: //accendi
+					_spegni = false;
+					_accendi = true;
+					break;
+				case 2: //accelera
+					if(_isOn && _gear != 0)
+					{
+						_decelera = _speedCostante = _frena = false;
+						_accelera = true;
+					}
+					break;
+				case 3: // speed costante
+					if(_isOn && _gear != 0 && Speed != 0)
+					{
+						_decelera = _accelera = _frena = false;
+						_speedCostante = true;
+					}
+					break;
+				case 4: //frena
+					if(_isOn && Speed != 0)
+					{
+						_decelera = _accelera = _speedCostante = false;
+						_frena = true;
+					}
+					break;
+			}
+		}
+
+		public void DefaultActions()
+		{
+			_decelera = true;
+			_accelera = _speedCostante = _frena = _accendi = _spegni = false;
 		}
 
 	}
+}
+
+enum Actions
+{
+	Decelera = -1,
+	Accelera = 2,
+	SpeedCostante = 3,
+	Frena = 4,
+	Accendi = 1,
+	Spegni = 0,
 }
