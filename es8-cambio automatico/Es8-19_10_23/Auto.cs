@@ -150,7 +150,7 @@ namespace es8_19_10_23
 			_gear = log==null ? gear : _gear;
 			return retLog ? log : "";
 		}
-		public string CambiaMarcia(Gears gear) => SwitchGear((short)gear);
+		public virtual string CambiaMarcia(Gears gear) => SwitchGear((short)gear);
 
 		public string EseguiAzione(Actions action) => SwitchActions(action);
 

@@ -18,6 +18,8 @@ namespace es8_19_10_23
 			//speedAndAccPerGear.Add(7,())
 		}
 
+		public override string CambiaMarcia(Gears gear) => "Now;Cambio Marcia;;in questa auto la marcia non può essere cambiata manualmente";
+
 
 	}
 }
