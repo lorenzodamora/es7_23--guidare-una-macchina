@@ -27,6 +27,11 @@ namespace es7_17_10_23
 			auto = new Auto();
 			if(fastStart)
 			{
+				AddLog(AzioneClick(Actions.Accendi));
+				Avanza_Click(null, null);
+				SavePreviousActions_Click(null, null);
+				CambiaMarcia((Gears)1);
+				AddLog(AzioneClick(Actions.Accelera));
 			}
 		}
 
