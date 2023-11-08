@@ -183,7 +183,7 @@ namespace es7_17_10_23
 			}
 		}
 
-		private void SwitchActions(Actions action, bool retLog = true)
+		private void SwitchActions(Actions action)
 		{
 			switch((short)action)
 			{
@@ -229,6 +229,27 @@ namespace es7_17_10_23
 			_accelera = _speedCostante = _frena = _accendi = _spegni = false;
 		}
 
+		private void Decelera()
+		{
+			Rallenta(DecelerazioneBase);
+		}
+		
+		private void Frena()
+		{
+			Rallenta(FrenataBase);
+		}
+
+		private void Rallenta(float rallenta)
+		{
+				if(Speed == 0) return;
+				rallenta *= -convert_mtPerSec_kmPerH;
+				if(Math.Abs(Speed) < rallenta)
+					Speed = 0;
+				else
+					Speed -= rallenta;
+				return;
+		}
+
 		/// <summary>
 		/// avanza di 1 secondo oppure quanti secondi inseriti.
 		/// </summary>
@@ -244,10 +265,10 @@ namespace es7_17_10_23
 			{
 				--seconds;
 				//se viene spenta passa prima per default actions
-				if(!(_accelera || _speedCostante || _frena) && _decelera) ; //Decelera();
+				if(!(_accelera || _speedCostante || _frena) && _decelera) Decelera();
 				else if(_accelera) ; // Accelera();
 				else if(_speedCostante) ;// SpeedCostante();
-				else if(_frena) ; // Frena();
+				else if(_frena) Frena();
 
 				if(!SavePreviousActions)
 					DefaultActions();
@@ -255,15 +276,15 @@ namespace es7_17_10_23
 					_accendi = _spegni = false;
 			}
 		}
-		public string AvanzaTempo(bool SavePreviousActions)
+		public void AvanzaTempo(bool SavePreviousActions)
 		{
 			this.SavePreviousActions = SavePreviousActions;
-			return AvanzaTempo(1);
+			AvanzaTempo(1);
 		}
-		public string AvanzaTempo(short seconds, bool SavePreviousActions)
+		public void AvanzaTempo(short seconds, bool SavePreviousActions)
 		{
 			this.SavePreviousActions = SavePreviousActions;
-			return AvanzaTempo(seconds);
+			AvanzaTempo(seconds);
 		}
 	}
 
