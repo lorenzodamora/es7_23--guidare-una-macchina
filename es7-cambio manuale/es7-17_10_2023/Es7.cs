@@ -30,7 +30,91 @@ namespace es7_17_10_23
 			}
 		}
 
-		private void Avanza_click(object sender, EventArgs e)
+		private void Accendi_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void Spegni_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void LedOnOff_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void Accelera_Click(object sender, EventArgs e)
+		{
+			
+		}
+
+		private void SpeedConstante_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Frena_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Retro_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Folle_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear1_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear2_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear3_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear4_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear5_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void Gear6_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void SavePreviousActions_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void Avanza1_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void Avanza_Click(object sender, EventArgs e)
+		{
+		}
+
+		private void PiùSecondi_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void MenoSecondi_Click(object sender, EventArgs e)
 		{
 		}
 
