@@ -367,7 +367,7 @@ namespace es8_19_10_23
 		/// </summary>
 		/// <remarks>Guarda la proprietà SavePreviousActions.</remarks>
 		/// <returns> Ritorna una stringa degli eventi accaduti</returns>
-		public string AvanzaTempo(short seconds = 1)
+		public virtual string AvanzaTempo(short seconds = 1)
 		{
 			string logs = "Azione;Risultato;Spiegazione\n";
 			logs += seconds + "\n";

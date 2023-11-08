@@ -38,6 +38,21 @@ namespace es8_19_10_23
 			throw new Exception("non è stata trovata la marcia corretta");
 		}
 
+		public override string AvanzaTempo(short seconds = 1)
+		{
+			string logs = "Azione;Risultato;Spiegazione\n";
+			logs += seconds + "\n";
+
+			while(seconds > 0)
+			{
+				--seconds;
+				string[] log = base.AvanzaTempo(1).Split(';');
+				for(int i = 2; i < log.Length-1; i++) logs += log[i];
+				Gear = CalcoloMarcia();
+				logs += seconds + "\n";
+			}
+			return logs + "0\n";
+		}
 
 	}
 
