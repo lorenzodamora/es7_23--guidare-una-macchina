@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace es7_17_10_23
 {
-	public partial class Es7 : Form
+	public partial class InternoAuto : Form
 	{
 		/*
 		 * Realizzare un programma in windows form che consenta di simulare la guida di un'automobile.
@@ -14,14 +15,31 @@ namespace es7_17_10_23
 		 * Per la realizzazione creare la classe Auto con gli attributi e i metodi opportuni.
 		 * Creare un repository GitHub effettuando almeno un commit/push, per ogni funzionalità implementata
 		 */
-		public Es7()
+
+		private readonly Auto auto; //statico?
+		//private int time = 0;
+
+		public InternoAuto(bool fastStart)
 		{
 			InitializeComponent();
+			StartPosition = FormStartPosition.CenterScreen;
+
+			auto = new Auto();
+			if(fastStart)
+			{
+			}
 		}
 
 		private void Avanza_click(object sender, EventArgs e)
 		{
+		}
 
+		private void Clear_Click(object sender, EventArgs e) => LogList.Items.Clear();
+
+		private void Restart_Click(object sender, EventArgs e)
+		{
+			Close();
+			Starter.restart = true;
 		}
 	}
 }

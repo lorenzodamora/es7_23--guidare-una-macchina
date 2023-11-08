@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System; //Math, Exception
+using System.Collections.Generic; //Dictionary<,>
+/*using System.Linq; //Dictionary .First() e .Last() */
 
 namespace es7_17_10_23
 {
