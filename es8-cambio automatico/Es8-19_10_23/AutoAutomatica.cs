@@ -14,13 +14,13 @@ namespace es8_19_10_23
 			get; set;
 		} = true;
 
-		private bool _mode; //0 avanti, 1 retro
-
 		public AutoAutomatica() : base()
 		{
 			//GearMax = 7;
 			//speedAndAccPerGear.Add(7,())
 		}
+
+		public void SetMode(Mode mode) => Mode = mode != 0;
 
 		public override string CambiaMarcia(Gears gear) => "Now;Cambio Marcia;;in questa auto la marcia non può essere cambiata manualmente";
 
@@ -40,4 +40,11 @@ namespace es8_19_10_23
 
 
 	}
+
+	enum Mode
+	{
+		Retro = 0, R = 0,
+		Avanti = 1, A = 1,
+	}
+
 }
