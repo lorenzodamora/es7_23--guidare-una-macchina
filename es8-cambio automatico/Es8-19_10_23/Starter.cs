@@ -21,7 +21,6 @@ namespace es8_19_10_23
 				input = Console.ReadKey(true).KeyChar.ToString().ToLower()[0];
 				if(input == 's' || input == '\r') input = 'y';
 				if(input == 'y') fastStart = true;
-
 			} while(input != 'y' && input != 'n');
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

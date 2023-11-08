@@ -9,10 +9,7 @@ namespace es8_19_10_23
 	/// <remarks>è senza cambio manuale.</remarks>
 	internal class AutoAutomatica : Auto
 	{
-		public bool Mode //0 retro, 1 avanti
-		{
-			get; set;
-		} = true;
+		public bool Mode { get; set; } = true;
 
 		public AutoAutomatica() : base()
 		{
@@ -29,7 +26,7 @@ namespace es8_19_10_23
 			if(log == null) return null;
 
 			Mode = !Mode;
-			return log.Substring(4);
+			return log.Substring(4) + "\n";
 		}
 
 		public override string CambiaMarcia(Gears gear) => "Now;Cambio Marcia;;in questa auto la marcia non può essere cambiata manualmente";
@@ -56,9 +53,10 @@ namespace es8_19_10_23
 			while(seconds > 0)
 			{
 				--seconds;
-				string[] log = base.AvanzaTempo(1).Split(';');
-				for(int i = 2; i < log.Length-1; i++) logs += log[i];
-				logs += CheckMode() + seconds + "\n";
+				string[] log = base.AvanzaTempo(1).Split('\n');
+				for(int i = 2; i < log.Length-2; i++) logs += log[i] + "\n";
+				if(IsOn) logs += CheckMode();
+				logs += seconds + "\n";
 			}
 			return logs;
 		}

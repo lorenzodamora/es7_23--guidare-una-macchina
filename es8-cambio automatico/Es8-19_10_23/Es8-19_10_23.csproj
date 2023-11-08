@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A1A9A7D0-FFE1-4FBE-807A-B687E64D6CF8}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Es8_19_10_23</RootNamespace>
+    <RootNamespace>es8_19_10_23</RootNamespace>
     <AssemblyName>Es8-19_10_23</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -60,6 +60,9 @@
     </Compile>
     <Compile Include="Starter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Es8.resx">
+      <DependentUpon>Es8.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

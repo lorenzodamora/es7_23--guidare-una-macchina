@@ -16,7 +16,7 @@ namespace es8_19_10_23
 		 * Creare un repository GitHub effettuando almeno un commit/push, per ogni funzionalità implementata
 		 */
 
-		private readonly Auto auto; //statico?
+		private readonly AutoAutomatica auto; //statico?
 		/* private int time = 0; */
 
 		public InternoAuto(bool fastStart)
@@ -24,7 +24,7 @@ namespace es8_19_10_23
 			InitializeComponent();
 			StartPosition = FormStartPosition.CenterScreen;
 
-			auto = new Auto();
+			auto = new AutoAutomatica();
 			if(fastStart)
 			{
 				AddLog(AzioneClick(Actions.Accendi));

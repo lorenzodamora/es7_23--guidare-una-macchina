@@ -329,8 +329,7 @@ namespace es8_19_10_23
 				Speed -= AcceleraInterna(Speed - speedAndAccPerGear[_gear].maxSpeed);
 				log += $"Velocità: {Speed:0.##} km/h;Accelerazione insufficiente, la marcia è troppo bassa\n";
 			}
-			else Speed += 0;
-			log += $"Velocità: {Speed:0.##} km/h;\n";
+			else log += $"Velocità: {Speed:0.##} km/h;\n";
 			return retLog ? log : null;
 		}
 

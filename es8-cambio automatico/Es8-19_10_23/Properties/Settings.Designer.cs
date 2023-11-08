@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Es8_19_10_23.Properties {
+namespace es8_19_10_23.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
