@@ -21,17 +21,31 @@ namespace es7_17_10_23
 	{
 		private bool _isOn;
 		private short _gear; //-1 retro, 0 (N) folle, 1->6
-		private float _speed; // km/h
 
-		public const short gearMin = -1;
-		public const short gearMax = 6; //se una subclass ha invece 7 marcie then con public sovrascrive o da error?
+		public float Speed { get; protected set; } // km/h
 
-		public const float frenataBase = -5f; // mt per sec quadrato
-		public const float decelerazioneBase = -0.5f; // mt per sec quadrato
-
-		public readonly Dictionary<short, (float minSpeed, float maxSpeed, float accelerazione)> speedAndAccPerGear = new Dictionary<short, (float minSpeed, float maxSpeed, float accelerazione)>
+		public bool IsOn
 		{
-			{-1, (-20f, 0f, 10f) }, // in retro la velocità è al max -20 km/h
+			get => _isOn;
+			set => OnOff(value);
+		}
+
+		public short Gear
+		{
+			get => _gear;
+			set => SwitchGear(value);
+		}
+
+		//le const non sono riscrivibili in subclass
+		public short GearMin { get; protected set; } = -1;
+		public short GearMax { get; protected set; } = 6;
+
+		public float FrenataBase { get; protected set; } = -5f; // mt per sec quadrato
+		public float DecelerazioneBase { get; protected set; } = -0.5f; // mt per sec quadrato
+
+		protected readonly Dictionary<short, (float minSpeed, float maxSpeed, float accelerazione)> speedAndAccPerGear = new Dictionary<short, (float minSpeed, float maxSpeed, float accelerazione)>
+		{
+			{-1, (-20f, 0f, -6f) }, // in retro la velocità è al max -20 km/h
 			{0, (0f, 0f, 0f) }, //in folle la velocità tende a 0
 			{1, (0f, 40f, 7f) },
 			{2, (20f, 70f, 5f) },
@@ -41,33 +55,30 @@ namespace es7_17_10_23
 			{6, (60f, 170f, 1f) }
 		};
 
+		/// <summary>
+		/// per ottenere km/h moltiplicalo, per ottenere m/s dividilo
+		/// </summary>
 		public const float convert_mtPerSec_kmPerH = 3.6f;
 
-		public const bool isGearSwitchableWhen_isOff = false;
+		public bool IsGearSwitchableWhen_isOff { get; protected set; } = false;
 		
-		public bool IsOn
-		{
-			get { return _isOn; }
-			set { OnOff(value); }
-		}
+		private bool _decelera = true; //mode -1 // = non fare niente
+		private bool _accelera, _speedCostante, _frena, _accendi, _spegni = false; // modes: 2, 3, 4, 1, 0
 
-		public short Gear
-		{
-			get { return _gear; }
-			set { SwitchGear(value); }
-		}
-
-		public float Speed
-		{
-			get { return _speed; }
-			private set { _speed = value; }
-		}
+		/// <summary>
+		/// Se True salva le precedenti azioni.
+		/// </summary>
+		/// <remarks>
+		///		Azioni escluse: accendi e spegni. <br/>
+		///		Se False le imposta a default dopo AvanzaTempo().
+		/// </remarks>
+		public bool SavePreviousActions { get; set; } = false;
 
 		public Auto()
 		{
 			_isOn = false;
 			_gear = 0;
-			_speed = 0;
+			Speed = 0;
 		}
 
 		/// <summary>
@@ -87,12 +98,12 @@ namespace es7_17_10_23
 		private void SwitchGear(short gear)
 		{
 			//in questa macchina a motore spento la marcia non cambia
-			if(!isGearSwitchableWhen_isOff && !_isOn) return;
+			if(!IsGearSwitchableWhen_isOff && !_isOn) return;
 			switch(gear)
 			{
 				case -1:
 					//gratta la marcia
-					if(_speed != 0) return;
+					if(Speed != 0) return;
 					break;
 				case 1:
 				case 2:
@@ -101,7 +112,7 @@ namespace es7_17_10_23
 				case 5:
 				case 6:
 					//gratta la marcia
-					if(_speed < 0) return;
+					if(Speed < 0) return;
 					break;
 				case 0:
 					//impostabile in ogni momento
