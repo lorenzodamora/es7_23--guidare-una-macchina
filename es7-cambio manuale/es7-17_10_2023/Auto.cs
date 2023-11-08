@@ -61,7 +61,7 @@ namespace es7_17_10_23
 		public const float convert_mtPerSec_kmPerH = 3.6f;
 
 		public bool IsGearSwitchableWhen_isOff { get; protected set; } = false;
-		
+
 		private bool _decelera = true; //mode -1 // = non fare niente
 		private bool _accelera, _speedCostante, _frena, _accendi, _spegni = false; // modes: 2, 3, 4, 1, 0
 
@@ -113,7 +113,7 @@ namespace es7_17_10_23
 			{
 				case -1:
 					//gratta la marcia
-					if(Speed != 0) return;
+					if(Speed <= 0) _gear = gear;
 					break;
 				case 1:
 				case 2:
@@ -122,17 +122,17 @@ namespace es7_17_10_23
 				case 5:
 				case 6:
 					//gratta la marcia
-					if(Speed < 0) return;
+					if(Speed >= 0) _gear = gear;
 					break;
 				case 0:
-					//impostabile in ogni momento
+					SwitchActions(Actions.Decelera, false);
+					_gear = gear;
 					break;
 				default:
-					//marcia non esistente
-					return;
+					throw new Exception("marcia non esistente. Esistenti: -1 -> 6");
 			}
-			_gear = gear;
 		}
+		public void CambiaMarcia(Gears gear) => SwitchGear((short)gear);
 
 		public void EseguiAzione(Actions action) => SwitchActions(action);
 
@@ -230,14 +230,26 @@ namespace es7_17_10_23
 		}
 
 	}
-}
 
-enum Actions
-{
-	Decelera = -1,
-	Accelera = 2,
-	SpeedCostante = 3,
-	Frena = 4,
-	Accendi = 1,
-	Spegni = 0,
+	enum Actions
+	{
+		Decelera = -1,
+		Accelera = 2,
+		SpeedCostante = 3,
+		Frena = 4,
+		Accendi = 1,
+		Spegni = 0,
+	}
+
+	enum Gears
+	{
+		R = -1, Retro = -1,
+		N = 0, Folle = 0,
+		Prima = 1,
+		Seconda = 2,
+		Terza = 3,
+		Quarta = 4,
+		Quinta = 5,
+		Sesta = 6
+	}
 }
