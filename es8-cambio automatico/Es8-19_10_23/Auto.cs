@@ -121,11 +121,11 @@ namespace es8_19_10_23
 		private void DiminuisciMarcia() => SwitchGear(_gear == 1 ? (short)-1 : (short)(_gear-1));
 		 */
 
-		private string SwitchGear(short gear, bool retLog = true)
+		protected string SwitchGear(short gear, bool retLog = true)
 		{
 			string log = null;
 			//in questa macchina a motore spento la marcia non cambia
-			if(!IsGearSwitchableWhen_isOff && !_isOn) return retLog ? "Now;Cambio Marcia;;in questa auto a motore spento la marcia non può essere cambiata" : "";
+			if(!IsGearSwitchableWhen_isOff && !_isOn) return retLog ? "Now;Cambio Marcia;;in questa auto a motore spento la marcia non può essere cambiata" : null;
 			switch(gear)
 			{
 				case -1:

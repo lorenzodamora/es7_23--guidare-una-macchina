@@ -22,6 +22,16 @@ namespace es8_19_10_23
 
 		public void SetMode(Mode mode) => Mode = mode != 0;
 
+		private string CheckMode()
+		{
+			string log = SwitchGear(CalcoloMarcia());
+
+			if(log == null) return null;
+
+			Mode = !Mode;
+			return log.Substring(4);
+		}
+
 		public override string CambiaMarcia(Gears gear) => "Now;Cambio Marcia;;in questa auto la marcia non può essere cambiata manualmente";
 
 		private short CalcoloMarcia()
@@ -48,10 +58,9 @@ namespace es8_19_10_23
 				--seconds;
 				string[] log = base.AvanzaTempo(1).Split(';');
 				for(int i = 2; i < log.Length-1; i++) logs += log[i];
-				Gear = CalcoloMarcia();
-				logs += seconds + "\n";
+				logs += CheckMode() + seconds + "\n";
 			}
-			return logs + "0\n";
+			return logs;
 		}
 
 	}
