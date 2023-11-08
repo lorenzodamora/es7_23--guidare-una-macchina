@@ -85,10 +85,26 @@ namespace es7_17_10_23
 		/// Switch motore acceso e motore spento.
 		/// </summary>
 		/// <param name="isOn">Set del motore</param>
-		private void OnOff(bool isOn)
+		/// <returns>Ritorna una stringa di log </returns>
+		private string OnOff(bool isOn, bool retLog = true)
 		{
+			string log = null;
+			if(!retLog)
+				goto Ret;
+
+			log = isOn ? "On;" : "Off;";
+			if(_isOn == isOn)
+			{
+				log += ";era già " + (isOn ? "accesa\n" : "spenta\n");
+				goto Ret;
+			}
+
+			log += isOn ? "Accesa;\n" : "Spenta;\n";
+
+		Ret:
 			_isOn = isOn;
 			if(!_isOn) DefaultActions();
+			return log;
 		}
 
 		public void AccendiSpegni()
@@ -105,15 +121,16 @@ namespace es7_17_10_23
 		private void DiminuisciMarcia() => SwitchGear(_gear == 1 ? (short)-1 : (short)(_gear-1));
 		 */
 
-		private void SwitchGear(short gear)
+		private string SwitchGear(short gear, bool retLog = true)
 		{
+			string log = null;
 			//in questa macchina a motore spento la marcia non cambia
-			if(!IsGearSwitchableWhen_isOff && !_isOn) return;
+			if(!IsGearSwitchableWhen_isOff && !_isOn) return retLog ? "Now;Cambio Marcia;;in questa auto a motore spento la marcia non può essere cambiata" : "";
 			switch(gear)
 			{
 				case -1:
 					//gratta la marcia
-					if(Speed <= 0) _gear = gear;
+					if(Speed > 0) log = "Now;Cambio Marcia;Gratta la marcia;La macchina si sta muovendo in avanti";
 					break;
 				case 1:
 				case 2:
@@ -122,19 +139,20 @@ namespace es7_17_10_23
 				case 5:
 				case 6:
 					//gratta la marcia
-					if(Speed >= 0) _gear = gear;
+					if(Speed < 0) log = "Now;Cambio Marcia;Gratta la marcia;La macchina si sta muovendo in retro";
 					break;
 				case 0:
 					SwitchActions(Actions.Decelera, false);
-					_gear = gear;
 					break;
 				default:
 					throw new Exception("marcia non esistente. Esistenti: -1 -> 6");
 			}
+			_gear = log==null ? gear : _gear;
+			return retLog ? log : "";
 		}
-		public void CambiaMarcia(Gears gear) => SwitchGear((short)gear);
+		public string CambiaMarcia(Gears gear) => SwitchGear((short)gear);
 
-		public void EseguiAzione(Actions action) => SwitchActions(action);
+		public string EseguiAzione(Actions action) => SwitchActions(action);
 
 		public void AnnullaAzione(Actions action)
 		{
@@ -182,8 +200,9 @@ namespace es7_17_10_23
 					throw new Exception("azione non trovata");
 			}
 		}
-		private void SwitchActions(Actions action)
+		private string SwitchActions(Actions action, bool retLog = true)
 		{
+			string log = null;
 			switch((short)action)
 			{
 				case -1: //decelera == non fare niente
@@ -204,12 +223,23 @@ namespace es7_17_10_23
 						_decelera = _speedCostante = _frena = false;
 						_accelera = true;
 					}
+					else
+					{
+						if(!_isOn) log = "Now;Accelera;;Non si può accelerare a motore spento\n";
+						else if(_gear == 0) log = "Now;Accelera;;Non si può accelerare senza una marcia inserita\n";
+					}
 					break;
 				case 3: // speed costante
 					if(_isOn && _gear != 0 && Speed != 0)
 					{
 						_decelera = _accelera = _frena = false;
 						_speedCostante = true;
+					}
+					else
+					{
+						if(!_isOn) log = "Now;Velocità Costante;;Non si può accelerare a motore spento\n";
+						else if(_gear == 0) log = "Now;Velocità Costante;;Non si può accelerare senza una marcia inserita\n";
+						else if(Speed == 0) log = "Now;Velocità Costante;;L'auto è ferma\n";
 					}
 					break;
 				case 4: //frena
@@ -218,8 +248,14 @@ namespace es7_17_10_23
 						_decelera = _accelera = _speedCostante = false;
 						_frena = true;
 					}
+					else
+					{
+						if(!_isOn) log = "Now;Frena;;Non si può frenare a motore spento\n";
+						else if(Speed == 0) log = "Now;Frena;;L'auto è già ferma\n";
+					}
 					break;
 			}
+			return retLog ? log : null;
 		}
 
 		public void DefaultActions()
@@ -228,10 +264,7 @@ namespace es7_17_10_23
 			_accelera = _speedCostante = _frena = _accendi = _spegni = false;
 		}
 
-		private void Decelera()
-		{
-			Rallenta(DecelerazioneBase);
-		}
+		private string Decelera(bool retLog = true) => Rallenta(DecelerazioneBase, retLog);
 
 		/*
 		public short TrovaMarciaCorretta()
@@ -249,8 +282,7 @@ namespace es7_17_10_23
 		}
 		 */
 
-		private float AcceleraInterna(float differenza)
-		{
+		private float AcceleraInterna(float differenza) => Math.Abs(speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH * (170f- differenza*2.5f)/170f);
 			/*
 			float accC = speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH;
 			float diff2 = differenza*2.5f;
@@ -259,56 +291,75 @@ namespace es7_17_10_23
 			float ret = accC * div;
 			return Math.Abs(ret);
 			*/
-			return Math.Abs(speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH * (170f- differenza*2.5f)/170f);
-		}
 
-		private void Accelera()
+		private string Accelera(bool retLog = true)
 		{
 			//acc * (100-(speed-max)*2.5)/100
 			//acc * (100-(min-speed)*2.5)/100
 
+			string log = "Accelera;";
 			if(Speed < speedAndAccPerGear[_gear].minSpeed)
 			{
 				//gear:6; min:60; speed:0; calcolo: acc * (100 - ( 60 - 0 ) * 2.5) / 100 = acc* (100 - 60) / 100 = 40% of acc
 				Speed += _gear != -1 ? AcceleraInterna(speedAndAccPerGear[_gear].minSpeed-Speed) : AcceleraInterna(-Speed - speedAndAccPerGear[_gear].minSpeed);
+				log += $"Velocità: {Speed:0.##} km/h;Accelerazione ridotta, la marcia è troppo alta\n";
 			}
 			else if(Speed > speedAndAccPerGear[_gear].maxSpeed)
 			{
 				//gear:6; max:170; speed:180; calcolo: acc * (100 - ( 180 - 170 ) * 2.5) / 100 = acc* (100 - 25) / 100 = 75% of acc
 				Speed -= AcceleraInterna(Speed - speedAndAccPerGear[_gear].maxSpeed);
+				log += $"Velocità: {Speed:0.##} km/h;Accelerazione insufficiente, la marcia è troppo bassa\n";
 			}
 			else
 			{
 				Speed += speedAndAccPerGear[_gear].accelerazione * convert_mtPerSec_kmPerH;
 				//se ora è sopra il max dovrei gestirla diversamente, ma vab
+				log += $"Velocità: {Speed:0.##} km/h;\n";
 			}
+			return retLog ? log : null;
 		}
 
-		private void SpeedCostante()
+		private string SpeedCostante(bool retLog = true)
 		{
 			//già passato questo: if(_isOn && _gear != 0 && Speed != 0)
 
+			string log = "Velocità costante;";
 			if(Speed > speedAndAccPerGear[_gear].maxSpeed)
 			{
 				Speed -= AcceleraInterna(Speed - speedAndAccPerGear[_gear].maxSpeed);
+				log += $"Velocità: {Speed:0.##} km/h;Accelerazione insufficiente, la marcia è troppo bassa\n";
 			}
 			else Speed += 0;
+			log += $"Velocità: {Speed:0.##} km/h;\n";
+			return retLog ? log : null;
 		}
 
-		private void Frena()
-		{
-			Rallenta(FrenataBase);
-		}
+		private string Frena(bool retLog = true) => Rallenta(FrenataBase, retLog);
 
-		private void Rallenta(float rallenta)
+		private string Rallenta(float rallenta, bool retLog = true)
 		{
-				if(Speed == 0) return;
+			if(!retLog)
+			{
+				if(Speed == 0) return null;
 				rallenta *= -convert_mtPerSec_kmPerH;
 				if(Math.Abs(Speed) < rallenta)
 					Speed = 0;
 				else
 					Speed -= rallenta;
-				return;
+				return null;
+			}
+
+			string log = rallenta==FrenataBase ? "Frena;" : "Decelera;";
+			if(Speed == 0) return log + ";L'auto è già ferma\n";
+			rallenta *= -convert_mtPerSec_kmPerH;
+			if(Math.Abs(Speed) < rallenta)
+			{
+				Speed = 0;
+				return log + "Velocità: 0 km/h;\n";
+			}
+			if(Speed < 0) rallenta *= -1;
+			Speed -= rallenta;
+			return log + $"Velocità: {Speed:0.##} km/h;\n";
 		}
 
 		/// <summary>
@@ -316,37 +367,42 @@ namespace es7_17_10_23
 		/// </summary>
 		/// <remarks>Guarda la proprietà SavePreviousActions.</remarks>
 		/// <returns> Ritorna una stringa degli eventi accaduti</returns>
-		public void AvanzaTempo(short seconds = 1)
+		public string AvanzaTempo(short seconds = 1)
 		{
-			if(_accendi) OnOff(true);
-			else if(_spegni) OnOff(false);
+			string logs = "Azione;Risultato;Spiegazione\n";
+			logs += seconds + "\n";
+			if(_accendi) logs += OnOff(true);
+			else if(_spegni) logs += OnOff(false);
 			//else if(_accendiSpegni) OnOff(!_isOn);
 
 			while(seconds > 0)
 			{
 				--seconds;
 				//se viene spenta passa prima per default actions
-				if(!(_accelera || _speedCostante || _frena) && _decelera) Decelera();
-				else if(_accelera) Accelera();
-				else if(_speedCostante) SpeedCostante();
-				else if(_frena) Frena();
+				if(!(_accelera || _speedCostante || _frena) && _decelera) logs += Decelera();
+				else if(_accelera) logs += Accelera();
+				else if(_speedCostante) logs += SpeedCostante();
+				else if(_frena) logs += Frena();
 
 				if(!SavePreviousActions)
 					DefaultActions();
 				else
 					_accendi = _spegni = false;
+				logs += seconds + "\n";
 			}
+			return logs;
 		}
-		public void AvanzaTempo(bool SavePreviousActions)
+		public string AvanzaTempo(bool SavePreviousActions)
 		{
 			this.SavePreviousActions = SavePreviousActions;
-			AvanzaTempo(1);
+			return AvanzaTempo(1);
 		}
-		public void AvanzaTempo(short seconds, bool SavePreviousActions)
+		public string AvanzaTempo(short seconds, bool SavePreviousActions)
 		{
 			this.SavePreviousActions = SavePreviousActions;
-			AvanzaTempo(seconds);
+			return AvanzaTempo(seconds);
 		}
+
 	}
 
 	enum Actions
