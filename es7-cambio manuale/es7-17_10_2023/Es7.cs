@@ -57,46 +57,45 @@ namespace es7_17_10_23
 
 		private void Frena_Click(object sender, EventArgs e) => AzioneClick(Actions.Frena);
 
-
-		private void Retro_Click(object sender, EventArgs e)
+		private void CambiaMarcia(Gears gear)
 		{
-
+			auto.CambiaMarcia(gear);
+			gear = (Gears)auto.Gear;
+			switch(auto.Gear)
+			{
+				case -1:
+				case 0:
+					view_gear.Text = gear.ToString();
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+					view_gear.Text = ((short)gear).ToString();
+					break;
+				default:
+					throw new Exception("gear non trovata");
+			}
+			//AggiornaLed();
 		}
 
-		private void Folle_Click(object sender, EventArgs e)
-		{
+		private void Retro_Click(object sender, EventArgs e) => CambiaMarcia(Gears.R);
 
-		}
+		private void Folle_Click(object sender, EventArgs e) => CambiaMarcia(Gears.N);
 
-		private void Gear1_Click(object sender, EventArgs e)
-		{
+		private void Gear1_Click(object sender, EventArgs e) => CambiaMarcia((Gears)1);
 
-		}
+		private void Gear2_Click(object sender, EventArgs e) => CambiaMarcia((Gears)2);
 
-		private void Gear2_Click(object sender, EventArgs e)
-		{
+		private void Gear3_Click(object sender, EventArgs e) => CambiaMarcia((Gears)3);
 
-		}
+		private void Gear4_Click(object sender, EventArgs e) => CambiaMarcia((Gears)4);
 
-		private void Gear3_Click(object sender, EventArgs e)
-		{
+		private void Gear5_Click(object sender, EventArgs e) => CambiaMarcia((Gears)5);
 
-		}
-
-		private void Gear4_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void Gear5_Click(object sender, EventArgs e)
-		{
-
-		}
-
-		private void Gear6_Click(object sender, EventArgs e)
-		{
-
-		}
+		private void Gear6_Click(object sender, EventArgs e) => CambiaMarcia((Gears)6);
 
 		private void SavePreviousActions_Click(object sender, EventArgs e)
 		{
