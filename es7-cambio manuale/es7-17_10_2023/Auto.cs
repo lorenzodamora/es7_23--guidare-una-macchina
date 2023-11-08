@@ -229,6 +229,42 @@ namespace es7_17_10_23
 			_accelera = _speedCostante = _frena = _accendi = _spegni = false;
 		}
 
+		/// <summary>
+		/// avanza di 1 secondo oppure quanti secondi inseriti.
+		/// </summary>
+		/// <remarks>Guarda la proprietà SavePreviousActions.</remarks>
+		/// <returns> Ritorna una stringa degli eventi accaduti</returns>
+		public void AvanzaTempo(short seconds = 1)
+		{
+			if(_accendi) OnOff(true);
+			else if(_spegni) OnOff(false);
+			//else if(_accendiSpegni) OnOff(!_isOn);
+
+			while(seconds > 0)
+			{
+				--seconds;
+				//se viene spenta passa prima per default actions
+				if(!(_accelera || _speedCostante || _frena) && _decelera) ; //Decelera();
+				else if(_accelera) ; // Accelera();
+				else if(_speedCostante) ;// SpeedCostante();
+				else if(_frena) ; // Frena();
+
+				if(!SavePreviousActions)
+					DefaultActions();
+				else
+					_accendi = _spegni = false;
+			}
+		}
+		public string AvanzaTempo(bool SavePreviousActions)
+		{
+			this.SavePreviousActions = SavePreviousActions;
+			return AvanzaTempo(1);
+		}
+		public string AvanzaTempo(short seconds, bool SavePreviousActions)
+		{
+			this.SavePreviousActions = SavePreviousActions;
+			return AvanzaTempo(seconds);
+		}
 	}
 
 	enum Actions
