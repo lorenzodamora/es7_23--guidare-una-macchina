@@ -30,32 +30,33 @@ namespace es7_17_10_23
 			}
 		}
 
-		private void Accendi_Click(object sender, EventArgs e)
+		private string AzioneClick(Actions action)
 		{
+			string log = "";
+			if(auto.GetAction(action))
+				auto.AnnullaAzione(action);
+			else
+				log = auto.EseguiAzione(action);
+			//AggiornaLed();
+			return log;
 		}
 
-		private void Spegni_Click(object sender, EventArgs e)
-		{
-		}
+		private void Accendi_Click(object sender, EventArgs e) => AzioneClick(Actions.Accendi);
+
+		private void Spegni_Click(object sender, EventArgs e) => AzioneClick(Actions.Spegni);
 
 		private void LedOnOff_Click(object sender, EventArgs e)
 		{
+			auto.AccendiSpegni();
+			//AggiornaLed();
 		}
 
-		private void Accelera_Click(object sender, EventArgs e)
-		{
-			
-		}
+		private void Accelera_Click(object sender, EventArgs e) => AzioneClick(Actions.Accelera);
 
-		private void SpeedConstante_Click(object sender, EventArgs e)
-		{
+		private void SpeedConstante_Click(object sender, EventArgs e) => AzioneClick(Actions.SpeedCostante);
 
-		}
+		private void Frena_Click(object sender, EventArgs e) => AzioneClick(Actions.Frena);
 
-		private void Frena_Click(object sender, EventArgs e)
-		{
-
-		}
 
 		private void Retro_Click(object sender, EventArgs e)
 		{
