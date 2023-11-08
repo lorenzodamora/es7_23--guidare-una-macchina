@@ -17,7 +17,7 @@ namespace es7_17_10_23
 		 */
 
 		private readonly Auto auto; //statico?
-		//private int time = 0;
+		/* private int time = 0; */
 
 		public InternoAuto(bool fastStart)
 		{
@@ -37,7 +37,7 @@ namespace es7_17_10_23
 				auto.AnnullaAzione(action);
 			else
 				log = auto.EseguiAzione(action);
-			//AggiornaLed();
+			AggiornaLed();
 			return log;
 		}
 
@@ -48,7 +48,7 @@ namespace es7_17_10_23
 		private void LedOnOff_Click(object sender, EventArgs e)
 		{
 			auto.AccendiSpegni();
-			//AggiornaLed();
+			AggiornaLed();
 		}
 
 		private void Accelera_Click(object sender, EventArgs e) => AzioneClick(Actions.Accelera);
@@ -78,7 +78,7 @@ namespace es7_17_10_23
 				default:
 					throw new Exception("gear non trovata");
 			}
-			//AggiornaLed();
+			AggiornaLed();
 		}
 
 		private void Retro_Click(object sender, EventArgs e) => CambiaMarcia(Gears.R);
@@ -99,6 +99,16 @@ namespace es7_17_10_23
 
 		private void SavePreviousActions_Click(object sender, EventArgs e)
 		{
+		}
+
+		private void AggiornaLed()
+		{
+			led_onOff.BackColor = auto.IsOn ? Color.Green : Color.Red;
+			led_on.BackColor = auto.GetAction(Actions.Accendi) ? Color.Green : Color.Red;
+			led_off.BackColor = auto.GetAction(Actions.Spegni) ? Color.Green : Color.Red;
+			led_accelera.BackColor = auto.GetAction(Actions.Accelera) ? Color.Green : Color.Red;
+			led_speedConst.BackColor = auto.GetAction(Actions.SpeedCostante) ? Color.Green : Color.Red;
+			led_frena.BackColor = auto.GetAction(Actions.Frena) ? Color.Green : Color.Red;
 		}
 
 		private void Avanza1_Click(object sender, EventArgs e)
