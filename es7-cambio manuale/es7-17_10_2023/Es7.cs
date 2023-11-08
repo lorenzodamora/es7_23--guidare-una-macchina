@@ -41,9 +41,9 @@ namespace es7_17_10_23
 			return log;
 		}
 
-		private void Accendi_Click(object sender, EventArgs e) => AzioneClick(Actions.Accendi);
+		private void Accendi_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.Accendi));
 
-		private void Spegni_Click(object sender, EventArgs e) => AzioneClick(Actions.Spegni);
+		private void Spegni_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.Spegni));
 
 		private void LedOnOff_Click(object sender, EventArgs e)
 		{
@@ -51,15 +51,15 @@ namespace es7_17_10_23
 			AggiornaLed();
 		}
 
-		private void Accelera_Click(object sender, EventArgs e) => AzioneClick(Actions.Accelera);
+		private void Accelera_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.Accelera));
 
-		private void SpeedConstante_Click(object sender, EventArgs e) => AzioneClick(Actions.SpeedCostante);
+		private void SpeedConstante_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.SpeedCostante));
 
-		private void Frena_Click(object sender, EventArgs e) => AzioneClick(Actions.Frena);
+		private void Frena_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.Frena));
 
 		private void CambiaMarcia(Gears gear)
 		{
-			auto.CambiaMarcia(gear);
+			AddLog(auto.CambiaMarcia(gear));
 			gear = (Gears)auto.Gear;
 			switch(auto.Gear)
 			{
@@ -104,16 +104,6 @@ namespace es7_17_10_23
 			else led_save.BackColor = Color.Red;
 		}
 
-		private void AggiornaLed()
-		{
-			led_onOff.BackColor = auto.IsOn ? Color.Green : Color.Red;
-			led_on.BackColor = auto.GetAction(Actions.Accendi) ? Color.Green : Color.Red;
-			led_off.BackColor = auto.GetAction(Actions.Spegni) ? Color.Green : Color.Red;
-			led_accelera.BackColor = auto.GetAction(Actions.Accelera) ? Color.Green : Color.Red;
-			led_speedConst.BackColor = auto.GetAction(Actions.SpeedCostante) ? Color.Green : Color.Red;
-			led_frena.BackColor = auto.GetAction(Actions.Frena) ? Color.Green : Color.Red;
-		}
-
 		private short CheckInputSecondi(string input)
 		{
 			if(!short.TryParse(input, out short sec))
@@ -130,9 +120,19 @@ namespace es7_17_10_23
 			return sec;
 		}
 
+		private void AggiornaLed()
+		{
+			led_onOff.BackColor = auto.IsOn ? Color.Green : Color.Red;
+			led_on.BackColor = auto.GetAction(Actions.Accendi) ? Color.Green : Color.Red;
+			led_off.BackColor = auto.GetAction(Actions.Spegni) ? Color.Green : Color.Red;
+			led_accelera.BackColor = auto.GetAction(Actions.Accelera) ? Color.Green : Color.Red;
+			led_speedConst.BackColor = auto.GetAction(Actions.SpeedCostante) ? Color.Green : Color.Red;
+			led_frena.BackColor = auto.GetAction(Actions.Frena) ? Color.Green : Color.Red;
+		}
+
 		private void Avanza1_Click(object sender, EventArgs e)
 		{
-			auto.AvanzaTempo();
+			Log(auto.AvanzaTempo());
 			AggiornaLed();
 			view_speed.Text = auto.Speed.ToString("0.##");
 		}
@@ -141,7 +141,7 @@ namespace es7_17_10_23
 		{
 			short sec = CheckInputSecondi(txt_secondi.Text);
 			Cursor = Cursors.WaitCursor;
-			auto.AvanzaTempo(sec);
+			Log(auto.AvanzaTempo(sec));
 			AggiornaLed();
 			view_speed.Text = auto.Speed.ToString("0.##");
 			Cursor = Cursors.Default;
@@ -153,6 +153,50 @@ namespace es7_17_10_23
 		{
 			short sec = CheckInputSecondi(txt_secondi.Text);
 			txt_secondi.Text = (sec == 1 ? sec : sec-1).ToString();
+		}
+
+		private void Log(string logs)
+		{
+			string[] log = logs.Split('\n');
+			//ha dentro di quanti secondi sono andato avanti 
+			int sec = int.Parse(log[1])-1;
+
+			for(int i = 0; i <= sec; i++)
+				foreach(ListViewItem item in LogList.Items)
+					item.Text = item.Text=="Now" ? "1" : (int.Parse(item.Text) + 1).ToString();
+
+			for(int i = 2; i < log.Length-1; i++)
+			{
+				if(log[i].Length < 4)
+				{
+					sec--;
+					continue;
+				}
+
+				string[] logSplit = log[i].Split(';');
+				string itemTime;
+				if(sec==0) itemTime = "Now";
+				else
+					itemTime = sec.ToString();
+				ListViewItem item = new ListViewItem(itemTime);
+				for(int s = 0; s < logSplit.Length; s++)
+				{
+					item.SubItems.Add(logSplit[s]);
+				}
+				LogList.Items.Insert(0, item);
+			}
+		}
+
+		private void AddLog(string log)
+		{
+			if(string.IsNullOrEmpty(log)) return;
+			string[] logSplit = log.Split(';');
+			ListViewItem item = new ListViewItem(logSplit[0].ToString());
+			for(int s = 1; s < logSplit.Length; s++)
+			{
+				item.SubItems.Add(logSplit[s]);
+			}
+			LogList.Items.Insert(0, item);
 		}
 
 		private void Clear_Click(object sender, EventArgs e) => LogList.Items.Clear();
