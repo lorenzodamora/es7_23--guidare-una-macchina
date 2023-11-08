@@ -111,21 +111,45 @@ namespace es7_17_10_23
 			led_frena.BackColor = auto.GetAction(Actions.Frena) ? Color.Green : Color.Red;
 		}
 
+		private short CheckInputSecondi(string input)
+		{
+			if(!short.TryParse(input, out short sec))
+			{//bad input
+				MessageBox.Show("Inserisci un numero intero", "Errore in input", 0);
+				return 0;
+			}
+			if(sec < 1)
+			{//bad input
+				MessageBox.Show("Il numero deve essere maggiore di 0", "Errore in input", 0);
+				return 0;
+			}
+			if(sec > 998) return 0;
+			return sec;
+		}
+
 		private void Avanza1_Click(object sender, EventArgs e)
 		{
+			auto.AvanzaTempo();
+			AggiornaLed();
+			view_speed.Text = auto.Speed.ToString("0.##");
 		}
 
 		private void Avanza_Click(object sender, EventArgs e)
 		{
+			short sec = CheckInputSecondi(txt_secondi.Text);
+			Cursor = Cursors.WaitCursor;
+			auto.AvanzaTempo(sec);
+			AggiornaLed();
+			view_speed.Text = auto.Speed.ToString("0.##");
+			Cursor = Cursors.Default;
 		}
 
-		private void PiùSecondi_Click(object sender, EventArgs e)
-		{
-
-		}
+		private void PiùSecondi_Click(object sender, EventArgs e) => txt_secondi.Text = (CheckInputSecondi(txt_secondi.Text)+1).ToString();
 
 		private void MenoSecondi_Click(object sender, EventArgs e)
 		{
+			short sec = CheckInputSecondi(txt_secondi.Text);
+			txt_secondi.Text = (sec == 1 ? sec : sec-1).ToString();
 		}
 
 		private void Clear_Click(object sender, EventArgs e) => LogList.Items.Clear();
