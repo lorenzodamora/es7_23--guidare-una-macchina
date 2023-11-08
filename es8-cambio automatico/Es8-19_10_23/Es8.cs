@@ -30,7 +30,7 @@ namespace es8_19_10_23
 				AddLog(AzioneClick(Actions.Accendi));
 				Avanza_Click(null, null);
 				SavePreviousActions_Click(null, null);
-				CambiaMarcia((Gears)1);
+				Avanti_Click(null, null);
 				AddLog(AzioneClick(Actions.Accelera));
 			}
 		}
@@ -62,45 +62,9 @@ namespace es8_19_10_23
 
 		private void Frena_Click(object sender, EventArgs e) => AddLog(AzioneClick(Actions.Frena));
 
-		private void CambiaMarcia(Gears gear)
-		{
-			AddLog(auto.CambiaMarcia(gear));
-			gear = (Gears)auto.Gear;
-			switch(auto.Gear)
-			{
-				case -1:
-				case 0:
-					view_gear.Text = gear.ToString();
-					break;
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-				case 5:
-				case 6:
-					view_gear.Text = ((short)gear).ToString();
-					break;
-				default:
-					throw new Exception("gear non trovata");
-			}
-			AggiornaLed();
-		}
+		private void Retro_Click(object sender, EventArgs e) => auto.SetMode(Mode.Retro);
 
-		private void Retro_Click(object sender, EventArgs e) => CambiaMarcia(Gears.R);
-
-		private void Folle_Click(object sender, EventArgs e) => CambiaMarcia(Gears.N);
-
-		private void Gear1_Click(object sender, EventArgs e) => CambiaMarcia((Gears)1);
-
-		private void Gear2_Click(object sender, EventArgs e) => CambiaMarcia((Gears)2);
-
-		private void Gear3_Click(object sender, EventArgs e) => CambiaMarcia((Gears)3);
-
-		private void Gear4_Click(object sender, EventArgs e) => CambiaMarcia((Gears)4);
-
-		private void Gear5_Click(object sender, EventArgs e) => CambiaMarcia((Gears)5);
-
-		private void Gear6_Click(object sender, EventArgs e) => CambiaMarcia((Gears)6);
+		private void Avanti_Click(object sender, EventArgs e) => auto.SetMode(Mode.Avanti);
 
 		private void SavePreviousActions_Click(object sender, EventArgs e)
 		{
@@ -140,6 +104,7 @@ namespace es8_19_10_23
 			Log(auto.AvanzaTempo());
 			AggiornaLed();
 			view_speed.Text = auto.Speed.ToString("0.##");
+			view_gear.Text = ((Gears)auto.Gear).ToString();
 		}
 
 		private void Avanza_Click(object sender, EventArgs e)
@@ -149,6 +114,8 @@ namespace es8_19_10_23
 			Log(auto.AvanzaTempo(sec));
 			AggiornaLed();
 			view_speed.Text = auto.Speed.ToString("0.##");
+			view_gear.Text = auto.Gear < 1 ? ((Gears)auto.Gear).ToString() : auto.Gear.ToString();
+			if(!auto.IsOn) view_gear.Text = "";
 			Cursor = Cursors.Default;
 		}
 

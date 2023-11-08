@@ -49,6 +49,7 @@ namespace es8_19_10_23
 		{
 			string logs = "Azione;Risultato;Spiegazione\n";
 			logs += seconds + "\n";
+			if(IsOn) logs += CheckMode();
 
 			while(seconds > 0)
 			{

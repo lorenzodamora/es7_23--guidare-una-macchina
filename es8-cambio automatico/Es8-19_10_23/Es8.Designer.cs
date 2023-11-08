@@ -34,14 +34,8 @@ namespace es8_19_10_23
 			this.btn_avanza = new System.Windows.Forms.Button();
 			this.btn_avanza1 = new System.Windows.Forms.Button();
 			this.btn_clear = new System.Windows.Forms.Button();
-			this.btn_folle = new System.Windows.Forms.Button();
+			this.btn_avanti = new System.Windows.Forms.Button();
 			this.btn_frena = new System.Windows.Forms.Button();
-			this.btn_gear1 = new System.Windows.Forms.Button();
-			this.btn_gear2 = new System.Windows.Forms.Button();
-			this.btn_gear3 = new System.Windows.Forms.Button();
-			this.btn_gear4 = new System.Windows.Forms.Button();
-			this.btn_gear5 = new System.Windows.Forms.Button();
-			this.btn_gear6 = new System.Windows.Forms.Button();
 			this.btn_giu = new System.Windows.Forms.Button();
 			this.btn_off = new System.Windows.Forms.Button();
 			this.btn_on = new System.Windows.Forms.Button();
@@ -123,18 +117,18 @@ namespace es8_19_10_23
 			this.btn_clear.UseVisualStyleBackColor = false;
 			this.btn_clear.Click += new System.EventHandler(this.Clear_Click);
 			// 
-			// btn_folle
+			// btn_avanti
 			// 
-			this.btn_folle.BackColor = System.Drawing.Color.White;
-			this.btn_folle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_folle.ForeColor = System.Drawing.Color.Black;
-			this.btn_folle.Location = new System.Drawing.Point(414, 326);
-			this.btn_folle.Name = "btn_folle";
-			this.btn_folle.Size = new System.Drawing.Size(64, 26);
-			this.btn_folle.TabIndex = 21;
-			this.btn_folle.Text = "Folle";
-			this.btn_folle.UseVisualStyleBackColor = false;
-			this.btn_folle.Click += new System.EventHandler(this.Folle_Click);
+			this.btn_avanti.BackColor = System.Drawing.Color.White;
+			this.btn_avanti.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.btn_avanti.ForeColor = System.Drawing.Color.Black;
+			this.btn_avanti.Location = new System.Drawing.Point(491, 296);
+			this.btn_avanti.Name = "btn_avanti";
+			this.btn_avanti.Size = new System.Drawing.Size(64, 26);
+			this.btn_avanti.TabIndex = 21;
+			this.btn_avanti.Text = "Avanti";
+			this.btn_avanti.UseVisualStyleBackColor = false;
+			this.btn_avanti.Click += new System.EventHandler(this.Avanti_Click);
 			// 
 			// btn_frena
 			// 
@@ -148,84 +142,6 @@ namespace es8_19_10_23
 			this.btn_frena.Text = "Frena";
 			this.btn_frena.UseVisualStyleBackColor = false;
 			this.btn_frena.Click += new System.EventHandler(this.Frena_Click);
-			// 
-			// btn_gear1
-			// 
-			this.btn_gear1.BackColor = System.Drawing.Color.White;
-			this.btn_gear1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear1.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear1.Location = new System.Drawing.Point(484, 296);
-			this.btn_gear1.Name = "btn_gear1";
-			this.btn_gear1.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear1.TabIndex = 22;
-			this.btn_gear1.Text = "1";
-			this.btn_gear1.UseVisualStyleBackColor = false;
-			this.btn_gear1.Click += new System.EventHandler(this.Gear1_Click);
-			// 
-			// btn_gear2
-			// 
-			this.btn_gear2.BackColor = System.Drawing.Color.White;
-			this.btn_gear2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear2.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear2.Location = new System.Drawing.Point(484, 326);
-			this.btn_gear2.Name = "btn_gear2";
-			this.btn_gear2.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear2.TabIndex = 23;
-			this.btn_gear2.Text = "2";
-			this.btn_gear2.UseVisualStyleBackColor = false;
-			this.btn_gear2.Click += new System.EventHandler(this.Gear2_Click);
-			// 
-			// btn_gear3
-			// 
-			this.btn_gear3.BackColor = System.Drawing.Color.White;
-			this.btn_gear3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear3.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear3.Location = new System.Drawing.Point(522, 296);
-			this.btn_gear3.Name = "btn_gear3";
-			this.btn_gear3.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear3.TabIndex = 24;
-			this.btn_gear3.Text = "3";
-			this.btn_gear3.UseVisualStyleBackColor = false;
-			this.btn_gear3.Click += new System.EventHandler(this.Gear3_Click);
-			// 
-			// btn_gear4
-			// 
-			this.btn_gear4.BackColor = System.Drawing.Color.White;
-			this.btn_gear4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear4.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear4.Location = new System.Drawing.Point(522, 326);
-			this.btn_gear4.Name = "btn_gear4";
-			this.btn_gear4.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear4.TabIndex = 25;
-			this.btn_gear4.Text = "4";
-			this.btn_gear4.UseVisualStyleBackColor = false;
-			this.btn_gear4.Click += new System.EventHandler(this.Gear4_Click);
-			// 
-			// btn_gear5
-			// 
-			this.btn_gear5.BackColor = System.Drawing.Color.White;
-			this.btn_gear5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear5.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear5.Location = new System.Drawing.Point(560, 296);
-			this.btn_gear5.Name = "btn_gear5";
-			this.btn_gear5.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear5.TabIndex = 26;
-			this.btn_gear5.Text = "5";
-			this.btn_gear5.UseVisualStyleBackColor = false;
-			this.btn_gear5.Click += new System.EventHandler(this.Gear5_Click);
-			// 
-			// btn_gear6
-			// 
-			this.btn_gear6.BackColor = System.Drawing.Color.White;
-			this.btn_gear6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btn_gear6.ForeColor = System.Drawing.Color.Black;
-			this.btn_gear6.Location = new System.Drawing.Point(560, 326);
-			this.btn_gear6.Name = "btn_gear6";
-			this.btn_gear6.Size = new System.Drawing.Size(32, 26);
-			this.btn_gear6.TabIndex = 27;
-			this.btn_gear6.Text = "6";
-			this.btn_gear6.UseVisualStyleBackColor = false;
-			this.btn_gear6.Click += new System.EventHandler(this.Gear6_Click);
 			// 
 			// btn_giu
 			// 
@@ -467,10 +383,10 @@ namespace es8_19_10_23
 			// LogList
 			// 
 			this.LogList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-						this.header_time,
-						this.header_azione,
-						this.header_risultato,
-						this.header_spiegazione});
+            this.header_time,
+            this.header_azione,
+            this.header_risultato,
+            this.header_spiegazione});
 			this.LogList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.LogList.ForeColor = System.Drawing.Color.Black;
 			this.LogList.HideSelection = false;
@@ -511,7 +427,7 @@ namespace es8_19_10_23
 			this.view_gear.ReadOnly = true;
 			this.view_gear.Size = new System.Drawing.Size(30, 42);
 			this.view_gear.TabIndex = 17;
-			this.view_gear.Text = "N";
+			this.view_gear.Text = "";
 			// 
 			// view_speed
 			// 
@@ -553,14 +469,8 @@ namespace es8_19_10_23
 			this.Controls.Add(this.btn_avanza);
 			this.Controls.Add(this.btn_avanza1);
 			this.Controls.Add(this.btn_clear);
-			this.Controls.Add(this.btn_folle);
+			this.Controls.Add(this.btn_avanti);
 			this.Controls.Add(this.btn_frena);
-			this.Controls.Add(this.btn_gear1);
-			this.Controls.Add(this.btn_gear2);
-			this.Controls.Add(this.btn_gear3);
-			this.Controls.Add(this.btn_gear4);
-			this.Controls.Add(this.btn_gear5);
-			this.Controls.Add(this.btn_gear6);
 			this.Controls.Add(this.btn_giu);
 			this.Controls.Add(this.btn_off);
 			this.Controls.Add(this.btn_on);
@@ -598,14 +508,8 @@ namespace es8_19_10_23
 		private Button btn_avanza1;
 		private Button btn_avanza;
 		private Button btn_clear;
-		private Button btn_folle;
+		private Button btn_avanti;
 		private Button btn_frena;
-		private Button btn_gear1;
-		private Button btn_gear2;
-		private Button btn_gear3;
-		private Button btn_gear4;
-		private Button btn_gear5;
-		private Button btn_gear6;
 		private Button btn_giu;
 		private Button btn_off;
 		private Button btn_on;
