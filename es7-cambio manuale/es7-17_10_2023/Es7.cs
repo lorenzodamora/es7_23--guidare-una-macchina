@@ -99,6 +99,9 @@ namespace es7_17_10_23
 
 		private void SavePreviousActions_Click(object sender, EventArgs e)
 		{
+			auto.SavePreviousActions = !auto.SavePreviousActions;
+			if(auto.SavePreviousActions) led_save.BackColor = Color.Green;
+			else led_save.BackColor = Color.Red;
 		}
 
 		private void AggiornaLed()
